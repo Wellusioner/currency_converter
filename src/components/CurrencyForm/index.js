@@ -16,6 +16,7 @@ import Spinner from '../Spinner';
 
 import { useSelector, useDispatch } from 'react-redux';
 import Actions from '../../redux/actions';
+import { useHistory } from 'react-router-dom';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -27,7 +28,7 @@ const useStyle = makeStyles(theme => ({
 }));
 
 const CurrencyForm = () => {
-
+  const history = useHistory();
   const classes = useStyle();
   const dispatch = useDispatch();
   const { currency, convert } = useSelector(state => state);
@@ -53,7 +54,7 @@ const CurrencyForm = () => {
       to,
       amount
     }));
-    
+    changeParams();
   },[from, to, dispatch]);
 
   const handleConvert = () => {
@@ -62,6 +63,11 @@ const CurrencyForm = () => {
       to,
       amount
     }));
+    changeParams();
+  }
+
+  const changeParams = () => {
+    history.push({ search: `?tool=convert&from=${from}&to=${to}&amount=${amount}`});
   }
 
   const handleAmount = e => {
